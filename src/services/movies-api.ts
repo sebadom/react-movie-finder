@@ -33,7 +33,7 @@ export const Api:IApi = {
     return response.json();
   },
   search: async (query) => {
-    const response = await fetch(SEARCH_URL, { body: getParms({ query }) });
+    const response = await fetch(`${SEARCH_URL}?${ getParms({ query }).toString() }`);
     return response.json();
   },
   getById: async (id: number) => {

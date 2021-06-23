@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { useParams } from 'react-router';
-import { Link } from 'react-router-dom';
+import { BackButton } from '../../components/BackButton/BackButton';
+import Trending, { TrendingDirection } from '../../components/Trending/Trending';
 import { STATUS } from '../../models/status.enum';
 import { useAppDispatch, useAppSelector } from '../../store/hooks';
 import { loadMovieAsync, selectActiveMovie, selectStatus } from '../../store/movies';
@@ -46,6 +47,29 @@ const MovieDetails = () => {
     dispatch(loadMovieAsync(Number(movieId)))
   }, [dispatch, movieId])
 
+  const renderVoteAverage = () => {
+    let result = null;
+    let trending: TrendingDirection;
+    
+    if (!!activeMovie?.vote_average) {
+      trending = activeMovie?.vote_average > 5 ? TrendingDirection.UP : TrendingDirection.DOWN;
+      
+      result = (
+        <Trending direction={trending} />
+      );
+    }
+
+    return (
+      <div>
+        <p className="flex flex-row space-x-1.5 items-center">
+          <strong className="font-open bold text-lg">Voting</strong>
+          { result }
+          <span>{activeMovie?.vote_average ? activeMovie?.vote_average : 'N/A'}</span>
+        </p>
+      </div>
+    );
+
+  }
   const renderMovieDetails = () => {
     const backgroundStyle: React.CSSProperties = {
       backgroundImage: `url(https://image.tmdb.org/t/p/w500/${ activeMovie?.backdrop_path })`
@@ -60,16 +84,11 @@ const MovieDetails = () => {
           <div className={TailwindStyles.Text.Wrapper}>
             <h1 className={TailwindStyles.Text.Title}>{activeMovie?.title}</h1>
             <p>{activeMovie?.overview}</p>
-            <p>{activeMovie?.popularity}</p>
+
+            {renderVoteAverage()}
+            
           
-            <div>
-              <Link to="/">
-                <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 15l-3-3m0 0l3-3m-3 3h8M3 12a9 9 0 1118 0 9 9 0 01-18 0z" />
-                </svg>
-              </Link>
-              Back
-            </div>
+            <BackButton to="/"/>
           </div>
         </div>
       </div>
