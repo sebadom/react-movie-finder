@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RootState, AppThunk } from '../../app/store';
+/* import { createAsyncThunk, createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { RootState, AppThunk } from '../../store/store';
 import { fetchCount } from './counterAPI';
 
 export interface CounterState {
@@ -80,3 +80,6 @@ export const incrementIfOdd = (amount: number): AppThunk => (
 };
 
 export default counterSlice.reducer;
+ */
+
+export {}
